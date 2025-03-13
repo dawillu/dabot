@@ -1,0 +1,22 @@
+{
+  "name": "dabot",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@langchain/google-genai": "^0.1.8",
+    "discord.js": "^14.18.0",
+    "dotenv": "^16.4.7",
+    "get-image-colors": "^4.0.1",
+    "node-cron": "^3.0.3",
+    "node-fetch": "^3.3.2",
+    "translate-google": "^1.5.0",
+    "weather-js": "^2.0.0"
+  }
+}

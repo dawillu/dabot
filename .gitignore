@@ -1,0 +1,13 @@
+# Ignore macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Ignore .env file (for environment variables)
+.env
+
+# Ignore config folder
+config
+
+#ignore node_modules
+node_modules
