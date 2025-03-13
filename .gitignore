@@ -6,8 +6,9 @@
 # Ignore .env file (for environment variables)
 .env
 
-# Ignore config folder
-config
+# Ignore configs folder
+configs
+data/credits.json
 
 #ignore node_modules
 node_modules
