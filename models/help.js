@@ -2,55 +2,74 @@ import { EmbedBuilder } from 'discord.js';
 
 // Command groups
 const commandGroups = {
-    // Core commands
     "🤖 Essential": [
         {
             name: '.ai',
             shortDesc: 'AI chat assistant',
-            usage: '.ai <question>'
+            usage: '.ai <question>',
+            aliases: ['.assistant']
         },
         {
-            name: '.weather',
-            shortDesc: 'Get weather forecast',
-            usage: '.weather <city>',
-            aliases: ['.w']
+            name: '.w',
+            shortDesc: 'Weather forecast',
+            usage: '.w <city>',
+            aliases: ['.weather']
         },
         {
             name: '.t',
             shortDesc: 'Translate text',
-            usage: '.t <text>'
+            usage: '.t <text>',
+            aliases: ['.translate']
         }
     ],
-    // Museum features
     "🎨 Museum": [
         {
-            name: '.museum',
-            shortDesc: 'Save image to gallery',
-            usage: '.museum <desc>',
-            aliases: ['.m']
+            name: '.m',
+            shortDesc: 'Save to museum',
+            usage: '.m <desc>',
+            aliases: ['.museum']
         },
         {
-            name: '.setMuseum',
+            name: '.ms',
             shortDesc: 'Set museum channel',
-            usage: '.sm [#channel]',
-            aliases: ['.sm'],
+            usage: '.ms [#channel]',
+            aliases: ['.setmuseum'],
             adminOnly: true
         }
     ],
-    // Bible system
     "📖 Bible": [
         {
-            name: '.bible',
-            shortDesc: 'Share Bible verse',
-            usage: '.bible [category]',
-            aliases: ['.b']
+            name: '.b',
+            shortDesc: 'Bible verse',
+            usage: '.b [category/reference]',
+            aliases: ['.bible']
         },
         {
-            name: '.setBible',
+            name: '.bs',
             shortDesc: 'Set Bible channel',
-            usage: '.setBible [#channel]',
-            aliases: ['.sb'],
+            usage: '.bs [#channel]',
+            aliases: ['.setbible'],
             adminOnly: true
+        }
+    ],
+    "🎮 Games": [
+        {
+            name: '.s',
+            shortDesc: 'Play slots',
+            usage: '.s [bet]',
+            aliases: ['.slot']
+        },
+        {
+            name: '.g',
+            shortDesc: 'Bible word game',
+            usage: '.g',
+            aliases: ['.game']
+        },
+        {
+            name: '.c',
+            shortDesc: 'Check credits',
+            usage: '.c',
+            aliases: ['.credits', '.balance']
         }
     ]
 };
@@ -58,34 +77,54 @@ const commandGroups = {
 // Command details
 const commandDetails = {
     'ai': {
-        description: 'Chat with the AI assistant for help and information',
+        description: 'Chat with AI assistant',
         example: '.ai What is Discord?',
-        note: 'Uses GPT for intelligent responses'
+        aliases: ['.assistant'],
+        note: 'Uses GPT for responses'
     },
-    'weather': {
-        description: 'Get detailed weather forecast for any location',
-        example: '.weather London',
-        aliases: ['.w'],
-        note: 'Shows temperature, conditions, and forecast'
+    'w': {
+        description: 'Get weather forecast',
+        example: '.w London',
+        aliases: ['.weather'],
+        note: 'Shows current weather and forecast'
     },
-    'museum': {
-        description: 'Add artwork to the museum gallery',
-        example: '.museum A beautiful sunset 🌄',
-        aliases: ['.m'],
-        note: 'Must include an image attachment'
+    'b': {
+        description: 'Get Bible verses by category or reference',
+        example: '.b love or .b john 3:16',
+        aliases: ['.bible'],
+        categories: ['love', 'peace', 'wisdom', 'hope', 'faith', 'etc..'],
+        note: 'Try .b categories to see all options'
     },
-    'bible': {
-        description: 'Share Bible verses by category or reference',
-        example: '.bible love',
-        aliases: ['.b'],
-        categories: [
-            'love', 'peace', 'wisdom', 'hope', 'inspiration',
-            'strength', 'grace', 'faith', 'joy', 'forgiveness',
-            'courage', 'patience', 'humility', 'contentment'
-        ],
-        note: 'Random verse if no category specified'
+    's': {
+        description: 'Play slots with your credits',
+        example: '.s 100',
+        aliases: ['.slots'],
+        note: 'Bet from 10 to all your credits. Win up to 10x your bet!'
+    },
+    'g': {
+        description: 'Bible word guessing game',
+        example: '.g',
+        aliases: ['.game'],
+        note: 'Earn 100 credits + speed bonus up to 50!'
+    },
+    'c': {
+        description: 'Check your credit balance',
+        example: '.c',
+        aliases: ['.credits', '.balance'],
+        note: 'Shows balance and ways to earn more'
     }
 };
+
+// Helper function for credits info
+function getCreditsHelp() {
+    return [
+        '💰 **Credits System**',
+        '• Check balance: `.c`',
+        '• Play slots: `.s [bet]`',
+        '• Play word game: `.g`',
+        '• Win up to 10x your bet'
+    ].join('\n');
+}
 
 // Show help message
 export async function ShowHelp(message) {
@@ -98,8 +137,14 @@ export async function ShowHelp(message) {
 
         const embed = new EmbedBuilder()
             .setColor(0x0099FF)
-            .setTitle('🤖 Command Quick Guide')
-            .setDescription('Use `.help <command>` for detailed info\n\nQuick Reference:');
+            .setTitle('Command Quick Guide')
+            .setDescription([
+                'Use `.help <command>` for detailed info',
+                '',
+                getCreditsHelp(),
+                '',
+                '**Quick Reference:**'
+            ].join('\n'));
 
         for (const [category, commands] of Object.entries(commandGroups)) {
             const commandList = commands.map(cmd => {
@@ -115,7 +160,10 @@ export async function ShowHelp(message) {
             });
         }
 
-        embed.setFooter({ text: '👑 = Admin only | Type .help <command> for details' });
+        embed.setFooter({ 
+            text: '👑 = Admin only | 💰 = Uses credits | Type .help <command> for details' 
+        });
+        
         await message.channel.send({ embeds: [embed] });
 
     } catch (error) {
@@ -139,15 +187,27 @@ async function showCommandHelp(message, commandName) {
         );
 
     if (cmd.aliases?.length) {
-        embed.addFields({ name: '💡 Aliases', value: cmd.aliases.join(', '), inline: true });
+        embed.addFields({ 
+            name: '💡 Aliases', 
+            value: cmd.aliases.join(', '), 
+            inline: true 
+        });
     }
     
     if (cmd.categories) {
-        embed.addFields({ name: '📑 Categories', value: `\`${cmd.categories.join('`, `')}\``, inline: true });
+        embed.addFields({ 
+            name: '📑 Categories', 
+            value: `\`${cmd.categories.join('`, `')}\``, 
+            inline: true 
+        });
     }
 
     if (cmd.note) {
-        embed.addFields({ name: '📌 Note', value: cmd.note, inline: false });
+        embed.addFields({ 
+            name: '📌 Note', 
+            value: cmd.note, 
+            inline: false 
+        });
     }
 
     await message.channel.send({ embeds: [embed] });

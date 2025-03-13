@@ -75,21 +75,40 @@ function sendWeatherEmbed(message, data) {
 
     const weatherEmbed = new EmbedBuilder()
         .setColor(color)
-        .setTitle(location.name)
-        .setThumbnail(current.imageUrl)
-        .setImage(current.imageUrl)
-        .addFields(
-            { name: 'Current Temperature', value: `${current.temperature}°C`, inline: true },
-            { name: 'Feels Like', value: `${current.feelslike}°C`, inline: true },
-            { name: 'Condition', value: current.skytext, inline: true },
-            { name: 'Humidity', value: `${current.humidity}%`, inline: true },
-            { name: 'Wind Speed', value: current.windspeed, inline: true },
-            { name: 'Wind Direction', value: current.winddisplay, inline: true }
-        )
-        .addFields(
-            { name: 'Today\'s Forecast', value: `${forecast[0].skytextday} with a high of ${forecast[0].high}°C and a low of ${forecast[0].low}°C`, inline: false },
-            { name: 'Tomorrow\'s Forecast', value: `${forecast[1].skytextday} with a high of ${forecast[1].high}°C and a low of ${forecast[1].low}°C`, inline: false }
-        )
+        .setTitle(`🌍 Weather in ${location.name}`)
+        .addFields([
+            // Current conditions
+            { 
+                name: '🌡️', 
+                value: `${current.temperature}°C`, 
+                inline: true 
+            },
+            { 
+                name: '💨', 
+                value: `${current.windspeed}`, 
+                inline: true 
+            },
+            { 
+                name: '💧', 
+                value: `${current.humidity}%`, 
+                inline: true 
+            },
+            // Today's forecast
+            { 
+                name: '📅 Today', 
+                value: `${forecast[0].skytextday}\n▲ High: ${forecast[0].high}°C\n▼ Low: ${forecast[0].low}°C`, 
+                inline: true 
+            },
+            // Tomorrow's forecast
+            { 
+                name: '📆 Tomorrow', 
+                value: `${forecast[1].skytextday}\n▲ High: ${forecast[1].high}°C\n▼ Low: ${forecast[1].low}°C`, 
+                inline: true 
+            }
+        ])
+        .setFooter({ 
+            text: `Last updated: ${current.observationtime} | ${current.date}` 
+        })
         .setTimestamp();
 
     message.channel.send({ embeds: [weatherEmbed] });
