@@ -1,22 +1,30 @@
 # dabot - Discord Assistant Bot
 
-A versatile Discord bot featuring AI chat, weather updates, translations, museum gallery, and daily Bible verses.
+A versatile Discord bot featuring Bible verses, games, AI chat, and more.
 
 ## Features
 
-### 🤖 Core Commands
-- `.ai` - AI chat assistant powered by GPT
-- `.weather` (`.w`) - Get weather forecasts for any location
-- `.t` - Translate text using commands or flag reactions
+### Core Commands
+- `.ai` - Chat with AI assistant
+- `.w` - Get weather forecast
+- `.t` - Translate text
 
-### 🎨 Museum Gallery
-- `.museum` (`.m`) - Save images to gallery channel
-- `.setMuseum` (`.sm`) - Set up museum gallery channel
+### Bible Features
+- `.b` - Get Bible verses (KJV/CUV)
+  - Random verses
+  - Category-based verses
+  - Specific verse lookup
+  - Supports verse ranges
+- `.bs` - Set Bible channel
 
-### 📖 Bible System
-- `.bible` (`.b`) - Share Bible verses by category
-- `.setBible` (`.sb`) - Configure Bible verse channel
-- Daily verse scheduler
+### Games & Credits
+- `.s` - Play slots (bet 10-1000 credits)
+- `.g` - Bible word guessing game
+- `.c` - Check credit balance
+
+### Museum
+- `.m` - Save content to museum
+- `.ms` - Set museum channel
 
 ## Setup
 
@@ -31,92 +39,46 @@ cd dabot
 npm install
 ```
 
-3. Create `.env` file with required tokens:
+3. Create a `.env` file:
 ```env
-# Discord Bot Token
-BOT_TOKEN=your_discord_bot_token
-
-# Google Gemini API
-GEMINI_API_KEY=your_gemini_api_key
+DISCORD_TOKEN=your_token_here
+OPENAI_API_KEY=your_key_here
+WEATHER_API_KEY=your_key_here
 ```
 
 4. Start the bot:
 ```bash
-node index.js
+npm start
 ```
 
-## Translation System
+## Configuration
 
-### Using Commands
-```
-.t spanish Hello World
-```
+### Bible Verses
+- Create `data/verses.json` for custom verse categories
+- Set Bible channel with `.bs #channel`
 
-### Using Flag Reactions
-React with country flags to translate messages:
-- 🇪🇸 Spanish
-- 🇫🇷 French
-- 🇯🇵 Japanese
-- (50+ languages supported)
+### Museum
+- Set museum channel with `.ms #channel`
 
-## Bible Categories
-Available categories for `.bible`:
-- love
-- peace
-- wisdom
-- hope
-- inspiration
-- strength
-- grace
-- faith
-- joy
-- forgiveness
+## Credits System
+- Start with 1000 credits
+- Win credits in Bible game
+- Bet credits in slots
+- Win multipliers: up to 10x
 
-## Requirements
+## Help
+Use `.h` for general help or `.h <command>` for specific command help.
 
-- Node.js v16.9.0 or higher
-- Discord.js v14
-- Environment variables:
-  - `BOT_TOKEN` - Discord Bot Token
-  - `GEMINI_API_KEY` - Google Gemini API Key
-
-## Getting API Keys
-
-### Discord Bot Token
-1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
-2. Create a new application
-3. Navigate to the Bot section
-4. Click "Reset Token" to get your bot token
-
-### Google Gemini API
-1. Visit [Google AI Studio](https://ai.google.dev/)
-2. Click "Get API key"
-3. Create a new project or select existing
-4. Copy your API key
-
-> **Note**: Keep your API keys secure and never commit them to version control
-
-## Commands
-
-| Command | Description | Usage | Admin |
-|---------|-------------|--------|-------|
-| `.ai` | AI chat assistant | `.ai <question>` | No |
-| `.weather` | Get weather forecast | `.weather <city>` | No |
-| `.t` | Translate text | `.t <language> <text>` | No |
-| `.museum` | Save to gallery | `.museum <description>` | No |
-| `.setMuseum` | Set museum channel | `.sm [#channel]` | Yes |
-| `.bible` | Share Bible verse | `.bible [category]` | No |
-| `.setBible` | Set Bible channel | `.setBible [#channel]` | Yes |
-| `.help` | Show all commands | `.help [command]` | No |
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## Dependencies
+- discord.js
+- node-fetch
+- dotenv
+- openai
 
 ## License
+MIT License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## Contributing
+1. Fork the repository
+2. Create feature branch
+3. Submit pull request
