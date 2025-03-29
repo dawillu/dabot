@@ -1,122 +1,73 @@
 # dabot - Discord Assistant Bot
 
-A versatile Discord bot featuring AI chat, weather updates, translations, museum gallery, and daily Bible verses.
+dabot is a versatile Discord bot that provides various utilities and fun features for your server, including AI chat assistance, Bible verse lookup, games, translation services, and more.
 
-## Features
+## Features Overview
 
-### 🤖 Core Commands
-- `.ai` - AI chat assistant powered by GPT
-- `.weather` (`.w`) - Get weather forecasts for any location
-- `.t` - Translate text using commands or flag reactions
+### 🤖 AI Assistant
+- `.ai` or `.assistant` - Ask any question to get AI-powered responses
+- Powered by Google's Gemini 1.5 Flash model
+- Example: `.ai What are the planets in our solar system?`
 
-### 🎨 Museum Gallery
-- `.museum` (`.m`) - Save images to gallery channel
-- `.setMuseum` (`.sm`) - Set up museum gallery channel
+### 📖 Bible Features
+- `.b` or `.bible` - Get Bible verses by category or reference
+- Categories include love, peace, wisdom, hope, faith, and more
+- Example: `.b love` or `.b john 3:16`
+- `.bs` - Set a dedicated Bible channel
+- `.g` or `.game` - Bible word guessing game that rewards credits
 
-### 📖 Bible System
-- `.bible` (`.b`) - Share Bible verses by category
-- `.setBible` (`.sb`) - Configure Bible verse channel
-- Daily verse scheduler
+### 🎮 Games & Credits System
+- `.s` or `.slot` - Play slots with your credits
+- `.g` or `.game` - Bible word guessing game
+- `.c` or `.credits` - Check your credit balance
+- Win credits through games to spend on slots
 
-## Setup
+### 🗣️ Translation
+- `.t` or `.translate` - Translate text to specified languages
+- Example: `.t spanish Hello world`
+- React with country flag emojis to translate messages
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/dabot.git
-cd dabot
-```
+### ☁️ Weather
+- `.w` or `.weather` - Get weather forecast for any city
+- Shows current conditions and forecast for next day
+- Example: `.w London`
 
-2. Install dependencies:
-```bash
-npm install
-```
+### 🖼️ Museum
+- `.m` or `.museum` - Save images to a museum channel
+- `.ms` or `.setmuseum` - Configure the museum channel
 
-3. Create `.env` file with required tokens:
-```env
-# Discord Bot Token
-BOT_TOKEN=your_discord_bot_token
+## Setup Instructions
 
-# Google Gemini API
-GEMINI_API_KEY=your_gemini_api_key
-```
+1. Clone the repository
+2. Install dependencies with `npm install`
+3. Create a `.env` file with your bot token and API keys:
+   ```
+   BOT_TOKEN=your_discord_bot_token_here
+   GOOGLE_API_KEY=your_google_api_key_here
+   ```
+4. Start the bot with `npm start`
 
-4. Start the bot:
-```bash
-node index.js
-```
+## Configuration
 
-## Translation System
+### Channel Setup
+- Set Bible channel: `.bs #channel-name`
+- Set Museum channel: `.ms #channel-name`
 
-### Using Commands
-```
-.t spanish Hello World
-```
+## Help Commands
 
-### Using Flag Reactions
-React with country flags to translate messages:
-- 🇪🇸 Spanish
-- 🇫🇷 French
-- 🇯🇵 Japanese
-- (50+ languages supported)
+- `.h` or `.help` - Show full command list
+- `.h <command>` - Get detailed help for a specific command
 
-## Bible Categories
-Available categories for `.bible`:
-- love
-- peace
-- wisdom
-- hope
-- inspiration
-- strength
-- grace
-- faith
-- joy
-- forgiveness
+## Repository Structure
+- `models/` - Contains modular functionality for each feature
+- `data/` - Stores verse categories and user credits
+- `configs/` - Holds server-specific configuration
 
-## Requirements
+## Credits System
 
-- Node.js v16.9.0 or higher
-- Discord.js v14
-- Environment variables:
-  - `BOT_TOKEN` - Discord Bot Token
-  - `GEMINI_API_KEY` - Google Gemini API Key
-
-## Getting API Keys
-
-### Discord Bot Token
-1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
-2. Create a new application
-3. Navigate to the Bot section
-4. Click "Reset Token" to get your bot token
-
-### Google Gemini API
-1. Visit [Google AI Studio](https://ai.google.dev/)
-2. Click "Get API key"
-3. Create a new project or select existing
-4. Copy your API key
-
-> **Note**: Keep your API keys secure and never commit them to version control
-
-## Commands
-
-| Command | Description | Usage | Admin |
-|---------|-------------|--------|-------|
-| `.ai` | AI chat assistant | `.ai <question>` | No |
-| `.weather` | Get weather forecast | `.weather <city>` | No |
-| `.t` | Translate text | `.t <language> <text>` | No |
-| `.museum` | Save to gallery | `.museum <description>` | No |
-| `.setMuseum` | Set museum channel | `.sm [#channel]` | Yes |
-| `.bible` | Share Bible verse | `.bible [category]` | No |
-| `.setBible` | Set Bible channel | `.setBible [#channel]` | Yes |
-| `.help` | Show all commands | `.help [command]` | No |
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Start with 1000 credits and earn more through:
+- Bible word game (100 points + speed bonus)
+- Slots with multipliers up to 10x your bet
 
 ## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the [MIT License](LICENSE).

@@ -9,7 +9,7 @@ import { SaveToMuseum } from './models/museum.js';
 import { ShowHelp } from './models/help.js';
 import { setMuseumChannel } from './models/museumConfig.js';
 import { GetBibleVerse } from './models/bible.js';
-import { setBibleChannel } from './models/bibleConfig.js';
+import { setBibleChannel} from './models/bibleConfig.js';
 import { PlaySlots } from './models/slots.js';
 import { PlayBibleGame } from './models/bibleGame.js';
 import { CheckCredits } from './models/credits.js';

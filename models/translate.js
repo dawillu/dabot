@@ -135,12 +135,23 @@ export function TranslateToRequestedLanguage(message) {
     translateText(sentence, languageMap[language], message);
 }
 
+// Helper function to check if emoji is a flag
+function isFlag(emoji) {
+    return /\p{Regional_Indicator}{2}/u.test(emoji);
+}
+
 // Handle flag reaction translations
 export function TranslateFromCode(message, reactionEmojiName) {
+    // Check if reaction is a flag emoji
+    if (!isFlag(reactionEmojiName)) {
+        return; // Silently ignore non-flag reactions
+    }
+
     const flag = emojiLanguageMap.get(reactionEmojiName);
 
     if (!flag?.langCode) {
-        sendErrorEmbed(message, "Invalid language code provided.");
+        // Only send error if it was a flag but not supported
+        sendErrorEmbed(message, "This flag's language is not supported yet.");
         return;
     }
 

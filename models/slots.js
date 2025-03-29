@@ -2,24 +2,23 @@ import { promises as fs } from 'fs';
 import path from 'path';
 
 const CREDITS_FILE = path.join(process.cwd(), 'data', 'credits.json');
-const SLOT_SYMBOLS = ['🍉', '🥐'];
+const SLOT_SYMBOLS = ['🍉', '🥐', '🥦'];
 const MIN_BET = 10;
-const MAX_BET = 1000;
+const STARTING_CREDITS = 1000;
 
 const PAYOUTS = {
     '🍉🍉🍉': 10,  // 10x bet
     '🥐🥐🥐': 7,   // 7x bet
+    '🥦🥦🥦': 5,   // 5x bet
 };
 
 // Helper functions for message formatting
 function createSpinningMessage(symbols, bet, credits) {
     return [
         '```',
-        '🎰 SLOTS 🎰',
-        '┏━━━━━━━━━━━━━┓',
-        `┃ ${symbols.join(' │ ')} ┃`,
-        '┗━━━━━━━━━━━━━┛',
-        `Bet: ${bet} 💰  Balance: ${credits} 💰`,
+        'SPINNING...',
+        `| ${symbols.join(' | ')} |`,
+        `bet: ${bet} 💰  balance: ${credits} 💰`,
         '```'
     ].join('\n');
 }
@@ -28,13 +27,10 @@ function createResultMessage(result, bet, winnings, balance) {
     const isWinner = winnings > 0;
     return [
         '```',
-        isWinner ? '🎰 WINNER! 🎰' : '🎰 SLOTS 🎰',
-        '┏━━━━━━━━━━━━━┓',
-        `┃ ${result.join(' │ ')} ┃`,
-        '┗━━━━━━━━━━━━━┛',
-        `Bet: ${bet} 💰  Winnings: ${winnings} 💰`,
-        `Balance: ${balance} 💰`,
-        isWinner ? `🎉 ${winnings/bet}x Multiplier! 🎉` : '😢 Better luck next time!',
+        isWinner ? 'WINNER!' : 'BAD LUCK!',
+        `| ${result.join(' | ')} |`,
+        `bet: ${bet} 💰  balance: ${balance} 💰  win: ${winnings} 💰`,
+        isWinner ? `🎉 ${winnings/bet}x Multiplier! 🎉` : '😢 better luck next time!',
         '```'
     ].join('\n');
 }
@@ -86,7 +82,7 @@ export async function PlaySlots(message) {
         }
         
         if (!credits[userId]) {
-            credits[userId] = 1000;
+            credits[userId] = STARTING_CREDITS;
         }
 
         if (credits[userId] < betAmount) {

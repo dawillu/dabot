@@ -3,6 +3,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 
 const CREDITS_FILE = path.join(process.cwd(), 'data', 'credits.json');
+const STARTING_CREDITS = 1000;
 
 async function loadCredits() {
     try {
@@ -14,11 +15,20 @@ async function loadCredits() {
     }
 }
 
+async function saveCredits(credits) {
+    await fs.writeFile(CREDITS_FILE, JSON.stringify(credits, null, 2));
+}
+
 export async function CheckCredits(message) {
     try {
         const credits = await loadCredits();
         const userId = message.author.id;
         const balance = credits[userId] || 0;
+
+        if (!credits[userId]) {
+            credits[userId] = STARTING_CREDITS;
+            await saveCredits(credits);
+        }
 
         const embed = new EmbedBuilder()
             .setColor('#FFD700')
